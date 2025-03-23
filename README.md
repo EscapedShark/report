@@ -13,7 +13,8 @@
 ## 代码结构
 
 ```
-├── model.py           # 模型训练、评估、回测和主函数
+├── main.py            # 主函数
+├── model.py           # 模型训练、评估、回测
 ├── process_data.py    # 数据生成和预处理功能
 ├── visaulize.py       # 结果可视化功能
 ├── utilities.py       # 辅助功能(日志记录、目录创建等)
@@ -52,7 +53,7 @@
 
 ## 使用方法
 
-直接运行model.py即可
+直接运行main.py即可
 
 ## 参数说明
 
@@ -61,7 +62,7 @@
 - `use_time_series_split`: 是否使用时间序列分割而非随机分割。默认为`True`。
 - `run_backtest` : 是否运行时间序列回测。默认为`False`。
 
-### 数据参数
+### 模拟生成参数
 
 `generate_stock_data()`函数接受以下参数：
 
@@ -69,6 +70,26 @@
 - `n_days` : 模拟的天数，默认为500。
 - `n_industries` : 行业数量，默认为10。
 - `add_market_factor` : 是否添加市场因子，默认为True。
+  
+### LightGBM参数
+
+
+
+```python
+params = {
+    'objective': 'regression',     # 回归任务
+    'metric': 'rmse',              # 使用均方根误差评估
+    'boosting_type': 'gbdt',       # 梯度提升决策树
+    'num_leaves': 31,              # 单棵树最大叶子数
+    'learning_rate': 0.05,         # 学习率
+    'feature_fraction': 0.9,       # 特征抽样比例
+    'bagging_fraction': 0.8,       # 数据抽样比例
+    'bagging_freq': 5,             # 执行抽样的频率
+    'early_stopping_round': 50,    # 提前停止训练的轮数
+    'verbose': -1                  # 静默模式,不打印过多信息，可以调整为10
+}
+```
+
 
 ### 回测参数
 
